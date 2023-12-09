@@ -19,20 +19,25 @@ def register(request):
         if request.method == "POST":
             form = CreateUserForm(request.POST)
             if form.is_valid():
+                
                 form.save()
                 return redirect('login') 
+            print('no')
         context = {'form':form }
                 
         return render(request,'register.html', context)
 
 #login
 def ulogin(request):
+    if request.user.is_authenticated:
+        return redirect('home')
     if request.method == "POST":
         uname = request.POST.get('uname')
         password = request.POST.get('password')
         user = authenticate(request, username=uname, password=password)
         if user is not None:
-            login(request, user)   
+            login(request, user)  
+            return redirect('home') 
         else:
             messages.error(request, 'Please enter correct username or password')
             return render(request, 'login.html')
