@@ -3,6 +3,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
+from .form import CreateUserForm
 
 # Create your views here.
 def home(request):
@@ -11,29 +12,18 @@ def home(request):
 
 #register
 def register(request):
-    
-    if request.method == "POST":
-        name = request.POST.get('name')
-        uname = request.POST.get('uname')
-        email = request.POST.get('email')
-        pass1 = request.POST.get('password1')
-        pass2 = request.POST.get('password2')
-    
-        if pass1!=pass2:
-            messages.success(request,'First and second passwords are not same')
-            return render(request,'register.html')
-        if User.objects.filter(username=uname).exists() or User.objects.filter(email=email).exists():
-            messages.success(request,'Username or email already exists')
-            return render(request, 'register.html')   
-
-        else:
-            my_user=User.objects.create_user(uname,email,pass1)
-            my_user.save()
-            
+    if request.user.is_authenticated:
+        return redirect('home')
+    else:
+        form = CreateUserForm()
+        if request.method == "POST":
+            form = CreateUserForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('login') 
+        context = {'form':form }
                 
-            #print(uname,email,pass1,pass2)
-            return redirect('login')  
-    return render(request,'register.html')
+        return render(request,'register.html', context)
 
 #login
 def ulogin(request):
