@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from .form import CreateUserForm
+from .models import *
 
 #Create your views here.
 def home(request):
@@ -18,8 +19,10 @@ def register(request):
         if request.method == "POST":
             form = CreateUserForm(request.POST)
             if form.is_valid():
-
-                form.save()
+                user = form.save()  # Save the user
+                new_profile = Profile.objects.create(user= user)  
+                new_profile.add_self_to_follows()
+                
                 return redirect('login') 
             print('no')
         context = {'form':form }
