@@ -9,13 +9,14 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
+          <div class=" d-flex mx-2 ">
+            <a href="{% url 'logout' %}" id="logout" class="btn btn-warning  ">Logout</a>
+            
+            <a href="{% url 'login' %}" id="login"  class="btn btn-warning ">Login</a>
+          </div>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'login' %}">LogIn</a>
+            <a class="nav-link active" aria-current="page" href="{% url 'create' %}">Create</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">Logout</a>
-          </li>
-          
           
           
         </ul>
@@ -26,3 +27,20 @@
       </div>
     </div>
   </nav>
+  <script type='text/javascript'>
+    var user = '{{request.user}}'
+    var Btn = document.getElementById('logout');
+    
+    if(user === "AnonymousUser"){
+    
+    Btn.style.display = "none";
+
+    }
+    var Btn = document.getElementById('login');
+    
+    if(user !== "AnonymousUser"){
+    
+    Btn.style.display = "none";
+
+    }
+  </script>

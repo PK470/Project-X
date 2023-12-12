@@ -72,19 +72,29 @@
 }
 
 </style>
+{% for content in context %}
 <div class="detailBox">
+    <div class="actionBox">
+        <div class="commentText">
+            <span class="date sub-text">@{{content.user_profile.user.username}}</span>
+        </div> 
+    </div>
+    
     <div class="titleBox">
-      <label>Tweet</label>   
+      <label>{{content.title}}</label>   
     <div class="commentBox">
-        <p class="taskDescription">content</p>
+        <p class="taskDescription">{{content.content}}</p>
     </div>
     <div class="actionBox">
         <div class="commentText">
-            <span class="date sub-text">on March 5th, 2014</span>
-
+            <span class="date sub-text">{{content.created_at}}</span>
         </div> 
     </div>
 </div>
+<br>
+<span></span> 
+
+{% endfor %}
 
 
 {% endblock  %}

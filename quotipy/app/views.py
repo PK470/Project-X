@@ -2,12 +2,16 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
-from .form import CreateUserForm
+from .form import CreateUserForm, TweetForm
 from .models import *
+from django.contrib.auth.decorators import login_required
+
 
 #Create your views here.
 def home(request):
-    return render(request, 'home.html')
+    tweet = Tweet.objects.all()
+    context = {'context': tweet}
+    return render(request, 'home.html', context)
 
 
 #register
@@ -48,3 +52,18 @@ def ulogin(request):
 def uLogout(request):
     logout(request)
     return redirect('login')
+@login_required
+def create_tweet(request):
+    if request.method == 'POST':
+        form = TweetForm(request.POST)
+        if form.is_valid():
+           
+            tweet = form.save(commit=False)
+            tweet.user_profile = request.user.profile  
+            tweet.save()
+
+            return redirect('home')
+    else:
+        form = TweetForm()
+
+    return render(request, 'create_tweet.html', {'form': form})
