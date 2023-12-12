@@ -8,6 +8,10 @@ class TweetForm(forms.ModelForm):
     class Meta:
         model = Tweet
         fields = [ 'title', 'content']
+        widgets = {
+
+            'content': forms.Textarea(attrs={'class': 'input-field', 'rows': 5, 'placeholder':'Content'}),
+        }
 
 
 class CreateUserForm(UserCreationForm):

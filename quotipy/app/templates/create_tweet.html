@@ -268,28 +268,23 @@
 		<section class="wrapper">
 			<div class="heading">
 				<h1 class="text text-large">Create Tweet</h1>
-			
 			</div>
 			<form name="signin" class="form" account="" method="POST">
                 {% csrf_token %}
-                
-
+            
                 {% if messages %}
                 <div class="pt-3">
                 <div class="alert alert-success" role="alert">
                 {% for message in messages %}
                     {{ message }}
                 {% endfor %}
-                
                 </div>
                 </div>
                 {% endif %}
 				<div class="input-control">
-					
 					{{form.title}}
 				</div>
 				<div class="input-control">
-					
 					{{form.content}}
 				</div>
 				<div class="input-control">
@@ -307,8 +302,9 @@
 
 //Query All input fields
 var form_fields = document.getElementsByTagName('input')
-form_fields[1].placeholder='Title';
-form_fields[2].placeholder='Content';
+form_fields[2].placeholder='Title';
+
+
 
 for (var field in form_fields){	
 form_fields[field].className += ' form-control'

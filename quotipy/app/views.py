@@ -54,16 +54,19 @@ def uLogout(request):
     return redirect('login')
 @login_required
 def create_tweet(request):
+    form = TweetForm()
     if request.method == 'POST':
+        
         form = TweetForm(request.POST)
         if form.is_valid():
            
             tweet = form.save(commit=False)
             tweet.user_profile = request.user.profile  
             tweet.save()
+            messages.success(request, 'Tweet created successfully!')
 
             return redirect('home')
-    else:
-        form = TweetForm()
+    
+        
 
     return render(request, 'create_tweet.html', {'form': form})

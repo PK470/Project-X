@@ -2,97 +2,88 @@
 {% load static %}
 {% block content %}
 <style>
-   
-    .detailBox {
+    .tweet {
         width: 500px;
-        border: 1px solid #bbb;
-        margin: 50px auto; /* Set auto for left and right margins */
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 10px;
+        margin: 0 auto;
+        margin-bottom: 15px;
+        
+        
     }
     
-.titleBox {
-    background-color:#fdfdfd;
-    padding:10px;
-}
-.titleBox label{
-  color:#444;
-  margin:0;
-  display:inline-block;
-}
-
-.commentBox {
-    padding:10px;
-    border-top:1px dotted #bbb;
-}
-.commentBox .form-group:first-child, .actionBox .form-group:first-child {
-    width:80%;
-}
-.commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {
-    width:18%;
-}
-.actionBox .form-group * {
-    width:100%;
-}
-.taskDescription {
-    margin-top:10px 0;
-}
-.commentList {
-    padding:0;
-    list-style:none;
-    max-height:200px;
-    overflow:auto;
-}
-.commentList li {
-    margin:0;
-    margin-top:10px;
-}
-.commentList li > div {
-    display:table-cell;
-}
-.commenterImage {
-    width:30px;
-    margin-right:5px;
-    height:100%;
-    float:left;
-}
-.commenterImage img {
-    width:100%;
-    border-radius:50%;
-}
-.commentText p {
-    margin:0;
-}
-.sub-text {
-    color:#aaa;
-    font-family:verdana;
-    font-size:11px;
-}
-.actionBox {
-    border-top:1px dotted #bbb;
-    padding:10px;
-}
+    .tweet-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+    
+    .tweet-header img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+    
+    
+    .user-info {
+        flex: 1;
+    }
+    
+    .username {
+        margin: 0;
+        font-weight: bold;
+    }
+    
+    .handle {
+        margin: 0;
+        color: #555;
+    }
+    
+    .tweet-content {
+        margin-bottom: 10px;
+    }
+    
+    .tweet-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #777;
+        font-size: 14px;
+    }
+    
+    
 
 </style>
+{% if messages %}
+    <div class="pt-3">
+        <div class="alert alert-success" role="alert">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
 {% for content in context %}
-<div class="detailBox">
-    <div class="actionBox">
-        <div class="commentText">
-            <span class="date sub-text">@{{content.user_profile.user.username}}</span>
-        </div> 
+<div class="tweet">
+    <div class="tweet-header">
+        <img src="{% static 'logo.jpg' %}" alt="Profile Picture">
+        <div class="user-info">
+            <h3 class="username">{{content.user_profile.user.first_name}}</h3>
+            <p class="handle">@{{content.user_profile.user.username}}</p>
+        </div>
     </div>
-    
-    <div class="titleBox">
-      <label>{{content.title}}</label>   
-    <div class="commentBox">
-        <p class="taskDescription">{{content.content}}</p>
+    <div class="tweet-content">
+        <h4>{{content.title}}</h4>
+        <br>
+        <p>{{content.content}}</p>
     </div>
-    <div class="actionBox">
-        <div class="commentText">
-            <span class="date sub-text">{{content.created_at}}</span>
-        </div> 
+    <div class="tweet-footer">
+        <p class="timestamp">{{content.created_at}}</p>
+        <!-- Additional actions or icons (like, retweet, etc.) can be added here -->
     </div>
 </div>
-<br>
-<span></span> 
 
 {% endfor %}
 
